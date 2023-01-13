@@ -9,3 +9,6 @@ dist
 .env.local
 .env.*
 renderer/.env
+renderer/.env.local
+renderer/.env.*
+renderer/firebase/*

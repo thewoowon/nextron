@@ -1,39 +1,39 @@
-import NextAuth, { ISODateString } from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import { FirestoreAdapter } from "@next-auth/firebase-adapter"
+import NextAuth, { ISODateString } from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+import { FirestoreAdapter } from '@next-auth/firebase-adapter'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import NaverProvider from 'next-auth/providers/naver'
-import {app } from "../../../firebase/firebase"
+import { app } from '../../../firebase/firebase'
 
 export interface CustomDefaultSession {
-    user?: {
-      name?: string | null
-      email?: string | null
-      image?: string | null
-    }
-    expires: ISODateString
-    id?: string
+  user?: {
+    name?: string | null
+    email?: string | null
+    image?: string | null
   }
+  expires: ISODateString
+  id?: string
+}
 
 export default NextAuth({
-    secret: process.env.NEXTAUTH_SECRET,
-    providers: [
-        
-        GoogleProvider({
-          id: 'google',
-          clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-        }),
-        // KakaoProvider({
-        //   clientId: process.env.KAKAO_CLIENT_ID ?? '',
-        //   clientSecret: process.env.KAKAO_CLIENT_SECRET ?? '',
-        // }),
-        NaverProvider({
-          id: 'naver',
-          clientId: process.env.NAVER_CLIENT_ID ?? '',
-          clientSecret: process.env.NAVER_CLIENT_SECRET ?? '',
-        }),
-    ],
+  secret: process.env.NEXTAUTH_SECRET,
+  providers: [
+    GoogleProvider({
+      id: 'google',
+      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    }),
+    // KakaoProvider({
+    //   clientId: process.env.KAKAO_CLIENT_ID ?? '',
+    //   clientSecret: process.env.KAKAO_CLIENT_SECRET ?? '',
+    // }),
+    NaverProvider({
+      id: 'naver',
+      clientId: process.env.NAVER_CLIENT_ID ?? '',
+      clientSecret: process.env.NAVER_CLIENT_SECRET ?? '',
+    }),
+  ],
+
   adapter: FirestoreAdapter({
     apiKey: process.env.FIREBASE_API_KEY,
     appId: process.env.FIREBASE_APP_ID,
@@ -45,4 +45,4 @@ export default NextAuth({
     // Optional emulator config (see below for options)
     emulator: {},
   }),
-});
+})
