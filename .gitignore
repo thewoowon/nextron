@@ -5,3 +5,7 @@ app
 dist
 .history
 .history/*
+.env
+.env.local
+.env.*
+renderer/.env
