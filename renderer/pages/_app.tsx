@@ -4,6 +4,7 @@ import { Session } from 'next-auth'
 import '../styles/globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'react-hot-toast'
+import { Layout } from '@components/Layout'
 
 function MyApp({
   Component,
@@ -13,7 +14,9 @@ function MyApp({
 }>) {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
       <Toaster></Toaster>
     </SessionProvider>
   )

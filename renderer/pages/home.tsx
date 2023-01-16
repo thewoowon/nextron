@@ -1,21 +1,30 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import { signIn } from 'next-auth/react'
+import React, { useEffect } from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 function Home() {
+  const { data: session } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    console.log(session)
+    if (!session) {
+      console.log('로그인이 필요합니다.')
+      //router.push('/auth/signIn')
+    }
+  }, [session])
   return (
-    <React.Fragment>
+    <div>
       <Head>
-        <title>Home - Nextron (with-typescript-tailwindcss)</title>
+        <title>WooWonTalk - Home</title>
       </Head>
-      <div className='mt-1 w-full flex-wrap flex justify-center'>
-        <button onClick={()=>{
-          signIn()
-        }}>hello</button>
+      <div className="w-full flex flex-col justify-center">
+        <div></div>
       </div>
-    </React.Fragment>
-  );
+    </div>
+  )
 }
 
-export default Home;
+export default Home
