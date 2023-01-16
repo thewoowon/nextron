@@ -1,6 +1,14 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
+import React from 'react'
+import Head from 'next/head'
+import {
+  getProviders,
+  signIn,
+  getSession,
+  getCsrfToken,
+  LiteralUnion,
+  ClientSafeProvider,
+  useSession,
+} from 'next-auth/react'
 
 function SignIn() {
   return (
@@ -8,10 +16,16 @@ function SignIn() {
       <Head>
         <title>Heart Lab - SignIn</title>
       </Head>
-      <div className='mt-1 w-full flex-wrap flex justify-center'>
-        <Link href='/home'>
-          <a className='btn-blue'>Go to home page</a>
-        </Link>
+      <div className="mt-1 w-full flex-wrap flex justify-center">
+        <button
+          className="btn-blue"
+          onClick={() => {
+            signIn('google')
+          }}
+        >
+          {' '}
+          signin
+        </button>
       </div>
     </React.Fragment>
   )

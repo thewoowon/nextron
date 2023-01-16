@@ -42,7 +42,41 @@ export default NextAuth({
     projectId: process.env.FIREBASE_PROJECT_ID,
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-    // Optional emulator config (see below for options)
-    emulator: {},
   }),
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
+  callbacks: {
+    session: async ({ session, token, user }) => {
+      const newSession = session as CustomDefaultSession
+      newSession.id = token.sub
+      return Promise.resolve(newSession)
+    },
+    jwt: async ({ token, user, account, profile, isNewUser }) => {
+      const isSignIn = user ? true : false
+      return Promise.resolve(token)
+    },
+  },
+  logger: {
+    error(code, metadata) {
+      console.log({ type: 'inside error logger', code, metadata })
+    },
+    warn(code) {
+      console.log({ type: 'inside warn logger', code })
+    },
+    debug(code, metadata) {
+      console.log({ type: 'inside debug logger', code, metadata })
+    },
+  },
+  debug: true,
+  pages: {
+    signIn: '/auth/signIn',
+    signOut: '/auth/signOut',
+    error: '/error/error',
+  },
 })
