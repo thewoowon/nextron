@@ -3,27 +3,25 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { Layout } from '@components/Layout'
+import toast from 'react-hot-toast'
 
 function Home() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
-
   useEffect(() => {
-    console.log(session)
-    if (!session) {
-      console.log('로그인이 필요합니다.')
-      //router.push('/auth/signIn')
+    if (status != 'loading' && !session) {
+      router.push('/auth/signIn')
+      toast.error('Unauthorized')
+      return
     }
-  }, [session])
+  }, [status, session])
   return (
-    <div>
+    <Layout>
       <Head>
         <title>WooWonTalk - Home</title>
       </Head>
-      <div className="w-full flex flex-col justify-center">
-        <div></div>
-      </div>
-    </div>
+    </Layout>
   )
 }
 

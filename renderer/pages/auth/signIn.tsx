@@ -12,8 +12,10 @@ import {
   LiteralUnion,
   ClientSafeProvider,
   useSession,
+  signOut,
 } from 'next-auth/react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -40,8 +42,9 @@ export default function SignIn({
     ClientSafeProvider | null
   >
 }) {
+  const router = useRouter()
   const [myProviders, setMyProviders] = useState([])
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const {
     register,
     getValues,
@@ -85,7 +88,7 @@ export default function SignIn({
   return (
     <div className="w-full h-screen flex justify-center mt-20">
       <div className="flex flex-col font-sans-kr">
-        {session ? (
+        {status != 'loading' && session ? (
           <div
             style={{ height: '500px' }}
             className="flex flex-col justify-center items-center font-sans-kr-light"
@@ -94,18 +97,22 @@ export default function SignIn({
               안녕하세요! {session.user?.name}님 😆😆😆
             </div>
             <div className="flex flex-col justify-center items-center py-3 text-blue-500">
-              <Link
-                className="border-b-2 border-b-white hover:border-b-blue-500 cursor-pointer"
-                href="/"
+              <button
+                className="btn-blue"
+                onClick={() => {
+                  router.push('/')
+                }}
               >
-                {'-> '} 메인으로 이동하기
-              </Link>
-              <Link
-                className="border-b-2 border-b-white hover:border-b-blue-500 cursor-pointer"
-                href="/auth/signout"
+                메인으로
+              </button>
+              <button
+                className="btn-blue"
+                onClick={() => {
+                  signOut()
+                }}
               >
-                {'-> '}로그아웃하기
-              </Link>
+                로그아웃
+              </button>
             </div>
           </div>
         ) : (

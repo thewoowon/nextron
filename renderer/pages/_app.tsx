@@ -14,9 +14,7 @@ function MyApp({
 }>) {
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
       <Toaster></Toaster>
     </SessionProvider>
   )
